@@ -1,0 +1,5 @@
+Instrument samples (church organ, acoustic grand piano):
+FluidR3_GM soundfont by Frank Wen, rendered to MP3 by the midi-js-soundfonts project
+(https://github.com/gleitz/midi-js-soundfonts). Licensed under Creative Commons
+Attribution 3.0 (https://creativecommons.org/licenses/by/3.0/). Trimmed to the note
+range used by this app; no other changes.

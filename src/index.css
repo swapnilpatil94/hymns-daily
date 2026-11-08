@@ -1,0 +1,148 @@
+@import '@fontsource/cinzel/latin-500.css';
+@import '@fontsource/cinzel/latin-600.css';
+@import '@fontsource/cormorant-garamond/latin-500.css';
+@import '@fontsource/cormorant-garamond/latin-600.css';
+@import '@fontsource/cormorant-garamond/latin-500-italic.css';
+@import '@fontsource/eb-garamond/latin-400.css';
+@import '@fontsource/eb-garamond/latin-500.css';
+@import '@fontsource/eb-garamond/latin-400-italic.css';
+
+/* ---- Themes: "Parchment" (day) and "Candlelight" (night) ---- */
+:root {
+  --bg:#f3e9d0; --bg2:#ead9b3; --fg:#2a1b0e; --muted:#6a5538; --card:rgba(255,250,236,.72); --line:rgba(122,88,24,.28);
+  --accent:#7a1f2b; --accent-fg:#fff7e6; --gold:#7a560e; --gold-hi:#d9a93a; --glow:rgba(217,169,58,.30); --window:#fff9ea;
+  --noise:.07; --banner-h:0px; color-scheme: light;
+  --serif: 'EB Garamond', Georgia, 'Times New Roman', serif; --display: 'Cinzel', 'Cormorant Garamond', Georgia, serif; --head: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+  font-family: var(--serif); font-size: 18px;
+}
+:root[data-theme='dark'] {
+  --bg:#0b0a16; --bg2:#14102a; --fg:#f2e8cf; --muted:#b9ab8a; --card:rgba(255,236,190,.05); --line:rgba(217,180,90,.30);
+  --accent:#e2bd62; --accent-fg:#1a1206; --gold:#dfbc66; --gold-hi:#f3d584; --glow:rgba(243,213,132,.26); --window:#17122e;
+  --noise:.05; color-scheme: dark;
+}
+@media (prefers-color-scheme: dark) { :root[data-theme='system'] {
+  --bg:#0b0a16; --bg2:#14102a; --fg:#f2e8cf; --muted:#b9ab8a; --card:rgba(255,236,190,.05); --line:rgba(217,180,90,.30);
+  --accent:#e2bd62; --accent-fg:#1a1206; --gold:#dfbc66; --gold-hi:#f3d584; --glow:rgba(243,213,132,.26); --window:#17122e;
+  --noise:.05; color-scheme: dark } }
+
+* { box-sizing: border-box }
+html, body, #root { height: 100%; margin: 0 }
+body { background: var(--bg); color: var(--fg); -webkit-tap-highlight-color: transparent; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility }
+/* Light from above, like a clerestory window */
+body::before { content: ''; position: fixed; inset: 0; z-index: -2; pointer-events: none;
+  background: radial-gradient(120% 60% at 50% -8%, var(--glow), transparent 62%), linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%) }
+/* Paper / vellum grain */
+body::after { content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: var(--noise); mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .35  0 0 0 0 .25  0 0 0 0 .1  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>") }
+:root[data-theme='dark'] body::after { mix-blend-mode: screen }
+@media (prefers-color-scheme: dark) { :root[data-theme='system'] body::after { mix-blend-mode: screen } }
+
+button, select, input { font: inherit; color: inherit }
+button { background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 10px 18px; min-height: 44px; cursor: pointer; font-family: var(--head); font-weight: 600; font-size: 1.05rem; letter-spacing: .02em }
+button:active { transform: scale(.98) }
+button.primary { background: linear-gradient(180deg, var(--gold-hi), var(--gold)); color: #21160a; border-color: transparent; box-shadow: 0 0 0 1px rgba(255,255,255,.12) inset, 0 6px 22px -6px var(--glow) }
+:root[data-theme='light'] button.primary, :root[data-theme='system'] button.primary { color: #fff7e6; background: linear-gradient(180deg, #9b2a38, var(--accent)) }
+@media (prefers-color-scheme: dark) { :root[data-theme='system'] button.primary { color: #21160a; background: linear-gradient(180deg, var(--gold-hi), var(--gold)) } }
+button:disabled { opacity: .5 }
+button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid var(--gold-hi); outline-offset: 2px }
+button.link { border: 0; background: none; color: var(--gold); text-decoration: underline; padding: 4px 6px; min-height: 0; font-family: var(--serif); font-weight: 500 }
+select, input[type='search'], input[type='time'] { width: 100%; min-height: 46px; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; padding: 8px 4px; font-family: var(--serif) }
+input[type='search']::placeholder { font-style: italic; color: var(--muted); opacity: 1 }
+select option { color: #2a1b0e }
+input[type='range'] { width: 100%; accent-color: var(--gold-hi) }
+h1 { font-family: var(--display); font-weight: 600; font-size: 1.55rem; letter-spacing: .14em; text-transform: uppercase; text-align: center; margin: 6px 0 4px; color: var(--gold) }
+h2 { font-family: var(--head); font-size: 1.25rem; font-weight: 600; color: var(--gold); margin: 22px 0 6px }
+h3 { font-family: var(--head); font-weight: 600; font-size: 1.55rem; line-height: 1.15; margin: 2px 0 2px }
+
+.app { height: 100%; display: flex; flex-direction: column; padding-top: env(safe-area-inset-top) }
+.main { flex: 1; min-height: 0; display: flex; flex-direction: column }
+.screen { flex: 1; min-height: 0; overflow-y: auto }
+.pad { padding: 8px 20px 28px }
+.muted { color: var(--muted); font-size: .95rem; margin: 2px 0; font-style: italic }
+.empty { color: var(--muted); padding: 12px 0; text-align: center; font-style: italic }
+.error { color: #ff8f86 } :root[data-theme='light'] .error { color: #9b1c12 }
+
+/* Tab bar: a dark nave floor with gold inlay */
+.tabs { display: flex; height: 64px; border-top: 1px solid var(--line); background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px); padding-bottom: env(safe-area-inset-bottom) }
+.tabs button { flex: 1; border: 0; border-radius: 0; background: none; min-height: 64px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-family: var(--display); font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 500; color: var(--muted); padding: 6px 0 }
+.tabs button[aria-current='true'] { color: var(--gold); position: relative }
+.tabs button[aria-current='true']::before { content: ''; position: absolute; top: 0; width: 34px; height: 2px; background: var(--gold-hi); box-shadow: 0 0 14px 2px var(--gold-hi); border-radius: 2px }
+
+/* Today: hero */
+.hero { text-align: center; padding: 14px 0 4px; position: relative; animation: breathe 9s ease-in-out infinite }
+.cross { display: block; margin: 0 auto 4px; filter: drop-shadow(0 0 10px var(--glow)) }
+.tagline { font-family: var(--head); font-style: italic; font-size: 1.1rem; color: var(--muted); margin: 6px 24px 0 }
+.streak { text-align: center; font-family: var(--display); font-style: normal; font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; margin-top: 12px }
+@keyframes breathe { 0%,100% { opacity: .92 } 50% { opacity: 1 } }
+@media (prefers-reduced-motion: reduce) { .hero { animation: none } }
+
+.orn { display: flex; align-items: center; gap: 10px; margin: 16px 8px }
+.orn span { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold)) } .orn span:last-child { transform: scaleX(-1) }
+
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 18px 18px 16px; margin: 16px 0; position: relative; box-shadow: 0 18px 40px -26px rgba(0,0,0,.6) }
+.card::before { content: ''; position: absolute; inset: 4px; border: 1px solid var(--line); border-radius: 3px; pointer-events: none; opacity: .55 }
+.eyebrow { font-family: var(--display); font-weight: 500; font-size: .7rem; letter-spacing: .24em; text-transform: uppercase; color: var(--gold); margin: 0 0 8px; text-align: center }
+.preview { font-style: italic; line-height: 1.5; font-size: 1.12rem; margin: 10px 0 4px }
+.preview::first-letter { font-family: var(--display); font-weight: 600; font-style: normal; color: var(--gold); float: left; font-size: 3.3rem; line-height: .82; padding: 4px 8px 0 0 }
+.hymncard h3, .hymncard .muted { text-align: center }
+.actions { display: flex; justify-content: center; gap: 12px; margin-top: 16px; clear: both }
+
+/* Verse of the day: a lancet window */
+.window { margin: 22px 0; padding: 54px 22px 22px; text-align: center; border: 1px solid var(--gold); border-radius: 150px 150px 8px 8px / 120px 120px 8px 8px; position: relative;
+  background: radial-gradient(90% 60% at 50% 0%, var(--glow), transparent 70%), linear-gradient(180deg, color-mix(in srgb, var(--window) 92%, var(--gold-hi)), var(--window)); box-shadow: 0 0 40px -10px var(--glow), 0 18px 40px -26px rgba(0,0,0,.7) }
+.window::before { content: ''; position: absolute; inset: 7px; border: 1px solid var(--line); border-radius: 143px 143px 4px 4px / 113px 113px 4px 4px; pointer-events: none }
+.window .eyebrow { margin-bottom: 14px }
+blockquote { margin: 0 0 10px; font-size: 1.28rem; line-height: 1.5; font-style: italic }
+
+/* Hymn list */
+.list { display: flex; flex-direction: column; overflow: hidden }
+.filters { padding: 8px 18px 0 }
+.chips { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; margin-top: 4px; align-items: center }
+.chips button { padding: 8px 14px; font-family: var(--display); font-size: .7rem; letter-spacing: .1em }
+.count { padding: 6px 2px; text-align: center }
+.listwrap { flex: 1; min-height: 0; display: flex; position: relative }
+.vlist { flex: 1; overflow-y: auto }
+.row { display: flex; align-items: center; gap: 14px; width: 100%; height: 64px; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: none; text-align: left; padding: 0 18px; font-family: var(--serif); font-weight: 400 }
+.num { flex: none; width: 2.5rem; height: 2.5rem; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; color: var(--gold); font-family: var(--display); font-size: .78rem; font-variant-numeric: lining-nums tabular-nums }
+.rowtext { flex: 1; min-width: 0; display: flex; flex-direction: column }
+.rowtitle { font-family: var(--head); font-weight: 600; font-size: 1.28rem; line-height: 1.15 }
+.rowtitle, .rowsub { overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.rowsub { color: var(--muted); font-size: .72rem; text-transform: uppercase; letter-spacing: .12em; font-family: var(--display) }
+.heart { color: var(--gold) }
+.azindex { display: flex; flex-direction: column; justify-content: space-between; padding: 2px 0; width: 28px }
+.azindex button { border: 0; background: none; padding: 0; min-height: 0; font-size: .7rem; flex: 1; font-family: var(--display); color: var(--gold) }
+
+/* Hymn detail */
+.detail { display: flex; flex-direction: column; overflow: hidden }
+.bar { display: flex; align-items: center; gap: 4px; padding: 4px 8px; border-bottom: 1px solid var(--line) }
+.bar button { border: 0; background: none; border-radius: 12px }
+.bartitle { flex: 1; text-align: center; color: var(--gold); font-family: var(--display); font-size: .78rem; letter-spacing: .2em; text-transform: uppercase }
+.scroll { flex: 1; overflow-y: auto; padding-bottom: calc(var(--banner-h) + 28px) }
+.detail h1 { font-family: var(--head); font-weight: 600; text-transform: none; letter-spacing: .01em; font-size: 2.1rem; line-height: 1.1; margin: 12px 0 6px; color: var(--fg) }
+.detail .muted { text-align: center }
+.player { display: grid; gap: 12px; background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 16px; margin: 16px 0; justify-items: center; position: relative }
+.player::before { content: ''; position: absolute; inset: 4px; border: 1px solid var(--line); border-radius: 3px; pointer-events: none; opacity: .55 }
+.player label { display: grid; gap: 4px; font-size: .95rem; color: var(--muted); width: 100%; font-style: italic }
+.playbtn { width: 68px; height: 68px; min-height: 68px; padding: 0; border-radius: 50%; display: grid; place-items: center; box-shadow: 0 0 0 1px rgba(255,255,255,.18) inset, 0 0 34px 2px var(--glow) }
+.playbtn.on { animation: pulse 2.4s ease-in-out infinite }
+@keyframes pulse { 0%,100% { box-shadow: 0 0 0 1px rgba(255,255,255,.18) inset, 0 0 22px 0 var(--glow) } 50% { box-shadow: 0 0 0 1px rgba(255,255,255,.18) inset, 0 0 46px 6px var(--glow) } }
+@media (prefers-reduced-motion: reduce) { .playbtn.on { animation: none } }
+.transpose { display: flex; align-items: center; justify-content: space-between; width: 100%; font-family: var(--head); font-size: 1.1rem }
+.transpose button { width: 46px; padding: 0 }
+.lyrics { line-height: 1.6; margin: 18px 0; font-family: var(--serif); text-align: center }
+.verse, .refrain { margin: 0 0 .4em; position: relative; padding: 0 .4em }
+.vnum { display: block; color: var(--gold); font-family: var(--display); font-size: .62em; letter-spacing: .24em; margin: 1.1em 0 .35em }
+.vline { display: block }
+.refrain { font-style: italic; margin: .9em 0 1.4em; padding: .7em 1em; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); color: color-mix(in srgb, var(--fg) 88%, var(--gold)) }
+.verse:first-child .vnum { margin-top: 0 }
+.sheet { background: #fffdf6; border-radius: 6px; margin: 14px 0; padding: 6px; overflow-x: auto; border: 1px solid var(--line) }
+.credits { color: var(--muted); font-size: .85rem; margin-top: 26px; text-align: center; font-style: italic }
+.credits p { margin: 4px 0 }
+.settings label { display: grid; gap: 2px; margin: 14px 0; color: var(--muted); font-style: italic }
+.settings label.inline { display: flex; align-items: center; gap: 12px }
+.settings button, .settings a { display: block; margin: 10px 0 }
+.settings a { color: var(--gold); padding: 8px 0 }
+.settings input[type='checkbox'] { width: 22px; height: 22px; accent-color: var(--gold-hi) }
+.sample { margin: 0; text-align: center; font-style: italic }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap }
+.playbtn { position: relative }

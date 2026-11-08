@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Hymns Daily: Hymn Book Offline</string>
+    <string name="title_activity_main">Hymns Daily: Hymn Book Offline</string>
+    <string name="package_name">com.hymnsdaily.app</string>
+    <string name="custom_url_scheme">com.hymnsdaily.app</string>
+</resources>
