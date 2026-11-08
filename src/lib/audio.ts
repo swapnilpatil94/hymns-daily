@@ -23,6 +23,10 @@ export const abcUrl = (file: string): string => `${import.meta.env.BASE_URL}abc/
  */
 export function unlockAudio(): void {
   try {
+    // iOS: treat page audio as media (plays with the silent switch on). Safari 17+; ignored elsewhere.
+    const session = (navigator as Navigator & { audioSession?: { type: string } }).audioSession
+    if (session) session.type = 'playback'
+    primeMediaChannel()
     const ctx = abcjs.synth.activeAudioContext()
     if (ctx.state !== 'running') void ctx.resume().catch(() => {})
     // A one-sample silent buffer played in the gesture fully unlocks output on iOS.
@@ -31,6 +35,23 @@ export function unlockAudio(): void {
     src.connect(ctx.destination)
     src.start(0)
   } catch { /* audio unsupported: createPlayer reports it */ }
+}
+
+let silentEl: HTMLAudioElement | undefined
+/** Older iOS: playing any <audio> element moves the page to the media channel, so Web Audio ignores the silent switch. */
+function primeMediaChannel(): void {
+  if (silentEl) return
+  const rate = 8000, n = 800 // 0.1 s of 8-bit silence
+  const b = new Uint8Array(44 + n).fill(128)
+  const dv = new DataView(b.buffer)
+  const tag = (o: number, t: string) => [...t].forEach((c, i) => b[o + i] = c.charCodeAt(0))
+  tag(0, 'RIFF'); dv.setUint32(4, 36 + n, true); tag(8, 'WAVE'); tag(12, 'fmt ')
+  dv.setUint32(16, 16, true); dv.setUint16(20, 1, true); dv.setUint16(22, 1, true)
+  dv.setUint32(24, rate, true); dv.setUint32(28, rate, true); dv.setUint16(32, 1, true); dv.setUint16(34, 8, true)
+  tag(36, 'data'); dv.setUint32(40, n, true)
+  silentEl = new Audio(URL.createObjectURL(new Blob([b], { type: 'audio/wav' })))
+  silentEl.setAttribute('playsinline', '')
+  void silentEl.play().catch(() => { silentEl = undefined })
 }
 
 /** Unlock on the first touch/click anywhere so every Play path (Today, list, detail, autoplay) is covered. */
