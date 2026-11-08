@@ -1,0 +1,41 @@
+name: Deploy web to Cloudflare Pages (hymns.getbyterush.com)
+on: workflow_dispatch
+env:
+  PROJECT: hymns-daily
+  DOMAIN: hymns.getbyterush.com
+  ZONE: getbyterush.com
+  CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+  CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci && npm run build
+      # Pages headers: same strict policy as the app, plus basic hardening
+      - run: |
+          cat > dist/_headers <<'H'
+          /*
+            X-Content-Type-Options: nosniff
+            Referrer-Policy: no-referrer
+            X-Frame-Options: DENY
+          H
+      - name: Verify token
+        run: curl -sf https://api.cloudflare.com/client/v4/user/tokens/verify -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" | head -c 200
+      - name: Create Pages project if missing
+        run: npx wrangler pages project create "$PROJECT" --production-branch main || true
+      - name: Deploy
+        run: npx wrangler pages deploy dist --project-name "$PROJECT" --branch main
+      - name: Attach custom domain
+        run: |
+          curl -s -X POST "https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/$PROJECT/domains" \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" -H "Content-Type: application/json" --data "{\"name\":\"$DOMAIN\"}"; echo
+      - name: DNS CNAME in the zone
+        run: |
+          ZID=$(curl -s "https://api.cloudflare.com/client/v4/zones?name=$ZONE" -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" | python3 -c "import sys,json;r=json.load(sys.stdin)['result'];print(r[0]['id'] if r else '')")
+          echo "zone found: $([ -n "$ZID" ] && echo yes || echo NO)"
+          [ -n "$ZID" ] && curl -s -X POST "https://api.cloudflare.com/client/v4/zones/$ZID/dns_records" \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" -H "Content-Type: application/json" \
+            --data "{\"type\":\"CNAME\",\"name\":\"hymns\",\"content\":\"$PROJECT.pages.dev\",\"proxied\":true}"; echo
