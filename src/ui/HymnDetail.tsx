@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import abcjs from 'abcjs'
 import { alternatives, hymnByNumber } from '../data/hymns'
-import { abcUrl, createPlayer, type Player } from '../lib/audio'
+import { abcUrl, createPlayer, unlockAudio, type Player } from '../lib/audio'
 import { verseLines } from '../lib/text'
 import { Divider, PauseIcon, PlayIcon, roman } from './Ornament'
 import { STORE_URL } from '../lib/ids'
@@ -42,6 +42,7 @@ export function HymnDetail({ n, autoplay, onBack }: { n: number; autoplay: boole
 
   const toggle = useCallback(async () => {
     if (!hymn) return
+    unlockAudio() // must run synchronously inside the tap, before any await
     const p = playerRef.current
     if (p?.isPlaying()) { p.pause(); audioPlaying.current = false; setPlaying(false); return }
     try {
