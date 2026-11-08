@@ -1,12 +1,11 @@
 /**
- * AdMob + Play Billing identifiers.
- * Values below are Google's documented TEST ids and the app-id placeholder. Replace for release
- * (see README: "Real AdMob ids"). The real AdMob *app* id also goes in android/app/src/main/AndroidManifest.xml.
+ * AdMob + Play Billing identifiers. Live AdMob ids for publisher pub-9282825747085683.
+ * Never tap your own ads: register your phone as a test device in AdMob.
  */
 export const ADMOB = {
-  banner: 'ca-app-pub-3940256099942544/9214589741', // Google test: adaptive banner
-  interstitial: 'ca-app-pub-3940256099942544/1033173712', // Google test: interstitial
-  isTesting: true, // set false for release builds with real unit ids
+  banner: 'ca-app-pub-9282825747085683/2539121044', // Hymns Banner
+  interstitial: 'ca-app-pub-9282825747085683/8061901304', // Hymns Interstitial
+  isTesting: false, // live ids: never tap your own ads; register your phone as an AdMob test device
 } as const
 
 export const REMOVE_ADS_PRODUCT_ID = 'remove_ads'
