@@ -10,6 +10,6 @@ export const ADMOB = {
 } as const
 
 export const REMOVE_ADS_PRODUCT_ID = 'remove_ads'
-export const PRIVACY_POLICY_URL = 'https://example.com/hymns-daily/privacy' // TODO founder: host PRIVACY policy from STORE_LISTING.md
+export const PRIVACY_POLICY_URL = 'https://hymns.getbyterush.com/privacy/'
 export const STORE_URL = 'https://play.google.com/store/apps/details?id=com.hymnsdaily.app' // placeholder until listed
 export const APP_ID = 'com.hymnsdaily.app'

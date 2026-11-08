@@ -68,7 +68,7 @@ The app is not directed to children under 13 and ads are not child-directed.
 Hymn texts and music: Open Hymnal Project (public domain). Scripture: World English Bible (public domain).
 
 ## Changes and contact
-We may update this policy and will change the date above. Contact: YOUR-EMAIL@example.com
+We may update this policy and will change the date above. Contact: swapnilvpatil1994@gmail.com
 ```
 
 ## Data safety form answers (Play Console)
