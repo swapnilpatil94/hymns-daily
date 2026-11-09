@@ -7,3 +7,4 @@ android/keystore.properties
 *.keystore
 android/local.properties
 store/.raw/
+store/*.aab
