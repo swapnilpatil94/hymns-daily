@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1d1640"/><stop offset="1" stop-color="#0b0a16"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="256" cy="210" r="190" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f3d584" stop-opacity=".55"/>
+      <stop offset=".45" stop-color="#e2bd62" stop-opacity=".16"/>
+      <stop offset="1" stop-color="#e2bd62" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fbe7a6"/><stop offset=".5" stop-color="#e9c46c"/><stop offset="1" stop-color="#b98a2e"/>
+    </linearGradient>
+  </defs>
+  <g id="bgl"><rect width="512" height="512" fill="url(#bg)"/></g>
+  <g id="fg">
+    <circle cx="256" cy="215" r="190" fill="url(#halo)"/>
+    <!-- gothic arched window -->
+    <path d="M150 400 V228 Q150 118 256 84 Q362 118 362 228 V400" fill="none" stroke="url(#gold)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- latin cross -->
+    <rect x="240" y="132" width="32" height="210" rx="5" fill="url(#gold)"/>
+    <rect x="196" y="186" width="120" height="30" rx="5" fill="url(#gold)"/>
+    <!-- open hymn book -->
+    <path d="M128 404 Q192 378 256 400 Q320 378 384 404 V424 Q320 400 256 422 Q192 400 128 424 Z" fill="url(#gold)"/>
+  </g>
+</svg>
