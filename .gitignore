@@ -8,3 +8,4 @@ android/keystore.properties
 android/local.properties
 store/.raw/
 store/*.aab
+store/video/
