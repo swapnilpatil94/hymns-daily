@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 22, cache: npm }
-      - run: npm ci && npm run build
+      - run: npm ci && npm run build:web
       # Pages headers: same strict policy as the app, plus basic hardening
       - run: |
           cat > dist/_headers <<'H'
@@ -38,4 +38,4 @@ jobs:
           echo "zone found: $([ -n "$ZID" ] && echo yes || echo NO)"
           [ -n "$ZID" ] && curl -s -X POST "https://api.cloudflare.com/client/v4/zones/$ZID/dns_records" \
             -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" -H "Content-Type: application/json" \
-            --data "{\"type\":\"CNAME\",\"name\":\"hymns\",\"content\":\"$PROJECT.pages.dev\",\"proxied\":true}"; echo
+            --data "{\"type\":\"CNAME\",\"name\":\"hymns\",\"content\":\"$PROJECT.pages.dev\",\"proxied\":false}"; echo
